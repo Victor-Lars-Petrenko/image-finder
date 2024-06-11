@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { getImages } from '../api/pixabay';
-import css from './App.module.css';
+import { getImages } from "../api/pixabay";
 
-import { Searchbar } from './Searchbar';
-import { ImageGallery } from './ImageGallery';
-import { Loader } from './Loader';
-import { Button } from './Button';
-import { Modal } from './Modal';
+import { Searchbar } from "./Searchbar";
+import { ImageGallery } from "./ImageGallery";
+import { Loader } from "./Loader";
+import { Button } from "./Button";
+import { Modal } from "./Modal";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import css from "./App.module.css";
 
 export const App = () => {
-  const [keyWord, setKeyWord] = useState('');
+  const [keyWord, setKeyWord] = useState("");
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -26,24 +27,24 @@ export const App = () => {
     updateQueryResult(keyWord, page)
       .then(totalHits => {
         if (totalHits === 0) {
-          return toast.info('Sorry, there are no results for your request');
+          return toast.info("Sorry, there are no results for your request");
         }
         if (page === 1) {
           return toast.success(
-            `We found ${totalHits} ${totalHits === 1 ? 'result' : 'results'}`
+            `We found ${totalHits} ${totalHits === 1 ? "result" : "results"}`
           );
         }
         if (page < Math.ceil(totalHits / 12)) {
           const rest = totalHits - page * 12;
           return toast.success(
-            `We found ${rest} more ${rest === 1 ? 'result' : 'results'}`
+            `We found ${rest} more ${rest === 1 ? "result" : "results"}`
           );
         }
         if (page === Math.ceil(totalHits / 12)) {
-          return toast.info('There are no more results for this request');
+          return toast.info("There are no more results for this request");
         }
       })
-      .catch(() => toast.error('Something get wrong'))
+      .catch(() => toast.error("Something get wrong"))
       .finally(() => {
         setLoading(false);
       });
